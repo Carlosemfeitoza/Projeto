@@ -4,7 +4,7 @@ Sistema de Matrícula em Django
 
 ## Sobre o Projeto
 
-Este é um projeto desenvolvido para a disciplina de **Programação para Internet**, utilizando **Django 4.2.2**, uma poderosa framework de desenvolvimento web baseada em Python. O principal objetivo é criar um sistema de matrícula que permite a realização de operações CRUD (Create, Read, Update, Delete) para Aluno, Curso e Cidade.
+Este é um projeto desenvolvido para a disciplina de **Programação para Internet**, utilizando **Django 4.2.2**, uma poderosa framework de desenvolvimento web baseada em Python. O principal objetivo é criar um sistema de agendamento médico.
 
 ## Recursos Utilizados
 
@@ -12,12 +12,6 @@ Este é um projeto desenvolvido para a disciplina de **Programação para Intern
 * Python 3.x
 * SQLite
 * HTML/CSS/Bootstrap
-
-## Funcionalidades
-
-* CRUD de Alunos
-* CRUD de Cursos
-* CRUD de Cidades
 
 ## Instalação
 
