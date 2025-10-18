@@ -1,0 +1,233 @@
+[
+  {
+    "model": "aluno.cidade",
+    "pk": 1,
+    "fields": {
+      "nome": "Pau dos Ferros",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 2,
+    "fields": {
+      "nome": "Natal",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 3,
+    "fields": {
+      "nome": "Mossoró",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 4,
+    "fields": {
+      "nome": "Caicó",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 5,
+    "fields": {
+      "nome": "Currais Novos",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 6,
+    "fields": {
+      "nome": "Assú",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 7,
+    "fields": {
+      "nome": "Apodi",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 8,
+    "fields": {
+      "nome": "Santa Cruz",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 9,
+    "fields": {
+      "nome": "São Paulo do Potengi",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 10,
+    "fields": {
+      "nome": "João Câmara",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 11,
+    "fields": {
+      "nome": "Macau",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 12,
+    "fields": {
+      "nome": "Nova Cruz",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 13,
+    "fields": {
+      "nome": "Parnamirim",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 14,
+    "fields": {
+      "nome": "São Gonçalo do Amarante",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 15,
+    "fields": {
+      "nome": "Areia Branca",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 16,
+    "fields": {
+      "nome": "Canguaretama",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 17,
+    "fields": {
+      "nome": "Lajes",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 18,
+    "fields": {
+      "nome": "Ipanguaçu",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 19,
+    "fields": {
+      "nome": "Jucurutu",
+      "sigla_estado": "RN"
+    }
+  },
+  {
+    "model": "aluno.cidade",
+    "pk": 20,
+    "fields": {
+      "nome": "Touros",
+      "sigla_estado": "RN"
+    }
+  },
+
+  {
+    "model": "aluno.curso",
+    "pk": 1,
+    "fields": {
+      "nome": "Informática"
+    }
+  },
+  {
+    "model": "aluno.curso",
+    "pk": 2,
+    "fields": {
+      "nome": "Eletrotécnica"
+    }
+  },
+  {
+    "model": "aluno.curso",
+    "pk": 3,
+    "fields": {
+      "nome": "Mecânica"
+    }
+  },
+  {
+    "model": "aluno.curso",
+    "pk": 4,
+    "fields": {
+      "nome": "Química"
+    }
+  },
+  {
+    "model": "aluno.curso",
+    "pk": 5,
+    "fields": {
+      "nome": "Edificações"
+    }
+  },
+  {
+    "model": "aluno.curso",
+    "pk": 6,
+    "fields": {
+      "nome": "Administração"
+    }
+  },
+  {
+    "model": "aluno.curso",
+    "pk": 7,
+    "fields": {
+      "nome": "Logística"
+    }
+  },
+  {
+    "model": "aluno.curso",
+    "pk": 8,
+    "fields": {
+      "nome": "Alimentos"
+    }
+  },
+  {
+    "model": "aluno.curso",
+    "pk": 9,
+    "fields": {
+      "nome": "Meio Ambiente"
+    }
+  },
+  {
+    "model": "aluno.curso",
+    "pk": 10,
+    "fields": {
+      "nome": "Redes de Computadores"
+    }
+  }
+]

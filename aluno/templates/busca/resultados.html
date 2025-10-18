@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block center %}
+<h2>Resultados da busca para "{{ q }}"</h2>
+
+{% if not q %}
+  <p>Digite um termo para procurar.</p>
+{% else %}
+  <p>Total aproximado de resultados: {{ total }}</p>
+
+  <h4>Clientes ({{ clientes|length }})</h4>
+  <ul>
+    {% for c in clientes %}
+      <li>{{ c.nome }} — {{ c.email }} — <a href="{% url 'cliente_editar' id=c.id %}">Editar</a></li>
+    {% empty %}
+      <li>Nenhum cliente encontrado.</li>
+    {% endfor %}
+  </ul>
+
+  <h4>Médicos ({{ medicos|length }})</h4>
+  <ul>
+    {% for m in medicos %}
+      <li>{{ m.nome }} — {{ m.especialidade }} — <a href="{% url 'medico_editar' id=m.id %}">Editar</a></li>
+    {% empty %}
+      <li>Nenhum médico encontrado.</li>
+    {% endfor %}
+  </ul>
+
+  <h4>Cidades ({{ cidades|length }})</h4>
+  <ul>
+    {% for city in cidades %}
+      <li>{{ city.nome }} - {{ city.sigla_estado }} — <a href="{% url 'cidade_editar' city.id %}">Editar</a></li>
+    {% empty %}
+      <li>Nenhuma cidade encontrada.</li>
+    {% endfor %}
+  </ul>
+
+  <h4>Agendamentos ({{ agendamentos|length }})</h4>
+  <ul>
+    {% for a in agendamentos %}
+      <li>{{ a.cliente.nome }} / {{ a.medico.nome }} — {{ a.data_hora|date:"d/m/Y H:i" }} — {{ a.get_status_display }} — <a href="{% url 'agendamento_detalhar' id=a.id %}">Ver</a></li>
+    {% empty %}
+      <li>Nenhum agendamento encontrado.</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block center %}
+<h1>Cidades</h1>
+<a href="{% url 'cidade_criar' %}" class="btn btn-success mb-3">Novo Cadastro</a>
+
+<form method="get" class="form-inline mb-3">
+  <input type="text" name="q" placeholder="Buscar por nome..." value="{{ q }}" class="form-control mr-2" />
+  <input type="text" name="sigla" placeholder="Sigla (UF)" value="{{ sigla }}" class="form-control mr-2" maxlength="2" />
+  <button type="submit" class="btn btn-primary">Filtrar</button>
+</form>
+
+{% if is_paginated %}
+  <p>Mostrando {{ page_obj.start_index }}–{{ page_obj.end_index }} de {{ paginator.count }} itens</p>
+{% else %}
+  <p>Mostrando {{ page_obj|length }} de {{ paginator.count }} itens</p>
+{% endif %}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>UF</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for cidade in page_obj.object_list %}
+    <tr>
+      <td>{{ cidade.id }}</td>
+      <td>{{ cidade.nome }}</td>
+      <td>{{ cidade.sigla_estado }}</td>
+      <td>
+        <a href="{% url 'cidade_editar' cidade.id %}" class="btn btn-primary">Editar</a>
+        <a href="{% url 'cidade_remover' cidade.id %}" class="btn btn-danger">Deletar</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4">Nenhuma cidade encontrada.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}{% if querystring %}&{{ querystring }}{% endif %}" class="btn btn-secondary">Anterior</a>
+  {% else %}
+    <span class="btn btn-light disabled">Anterior</span>
+  {% endif %}
+
+  <span style="margin:0 10px;">Página {{ page_obj.number }} de {{ paginator.num_pages }}</span>
+
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{% if querystring %}&{{ querystring }}{% endif %}" class="btn btn-secondary">Próxima</a>
+  {% else %}
+    <span class="btn btn-light disabled">Próxima</span>
+  {% endif %}
+</div>
+{% endblock %}

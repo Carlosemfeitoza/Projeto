@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block center %}
+  <h2>Lista de Agendamentos</h2>
+
+  <a href="{% url 'agendamento_criar' %}" class="btn btn-success mb-3">Novo Agendamento</a>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Cliente</th>
+        <th>Curso</th>
+        <th>Data</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for agendamento in agendamentos %}
+        <tr>
+          <td>{{ agendamento.cliente.nome_cliente }}</td>
+          <td>{{ agendamento.curso.nome }}</td>
+          <td>{{ agendamento.data|date:"d/m/Y H:i" }}</td>
+          <td>
+            <a href="{% url 'agendamento_editar' id=agendamento.id %}" class="btn btn-primary btn-sm">Editar</a>
+            <a href="{% url 'agendamento_remover' id=agendamento.id %}" class="btn btn-danger btn-sm">Remover</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

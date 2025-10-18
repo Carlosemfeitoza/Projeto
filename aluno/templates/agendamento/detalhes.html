@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block center %}
+<h2>Detalhes do Agendamento</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Cliente</th>
+        <td>{{ agendamento.cliente.nome }}</td>
+    </tr>
+    <tr>
+        <th>Médico</th>
+        <td>{{ agendamento.medico.nome }}</td>
+    </tr>
+    <tr>
+        <th>Data e Hora</th>
+        <td>{{ agendamento.data_hora }}</td>
+    </tr>
+    <tr>
+        <th>Motivo</th>
+        <td>{{ agendamento.motivo }}</td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td>{{ agendamento.status }}</td>
+    </tr>
+</table>
+
+<a href="{% url 'agendamento_listar' %}" class="btn btn-secondary">Voltar</a>
+{% endblock %}

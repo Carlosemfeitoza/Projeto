@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block center %}
+  <h2>Formulário de Cliente</h2>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+      <label for="id_nome" class="form-label">Nome</label>
+      <input type="text" name="nome" id="id_nome" class="form-control" value="{{ form.nome.value|default_if_none:'' }}">
+    </div>
+
+    <div class="mb-3">
+      <label for="id_email" class="form-label">E-mail</label>
+      <input type="email" name="email" id="id_email" class="form-control" value="{{ form.email.value|default_if_none:'' }}">
+    </div>
+
+    <div class="mb-3">
+      <label for="id_endereco" class="form-label">Endereço</label>
+      <input type="text" name="endereco" id="id_endereco" class="form-control" value="{{ form.endereco.value|default_if_none:'' }}">
+    </div>
+
+    <div class="mb-3">
+      <label for="id_telefone" class="form-label">Telefone</label>
+      <input type="text" name="telefone" id="id_telefone" class="form-control" value="{{ form.telefone.value|default_if_none:'' }}">
+    </div>
+
+    <div class="mb-3">
+      <label for="id_cpf" class="form-label">CPF</label>
+      <input type="text" name="cpf" id="id_cpf" class="form-control" value="{{ form.cpf.value|default_if_none:'' }}">
+    </div>
+
+    <div class="mb-3">
+      <label for="id_foto" class="form-label">Foto</label>
+      <input type="file" name="foto" id="id_foto" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label for="id_cidade" class="form-label">Cidade</label>
+      <select name="cidade" id="id_cidade" class="form-select">
+        {% for cidade in form.cidade.field.queryset %}
+          <option value="{{ cidade.id }}" {% if form.cidade.value == cidade.id %}selected{% endif %}>{{ cidade.nome }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar</button>
+  </form>
+{% endblock %}
+

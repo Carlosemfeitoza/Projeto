@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block center %}
+<h2>Formulário de Agendamento</h2>
+
+<form method="post">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label for="id_cliente" class="form-label">Cliente</label>
+        {{ form.cliente }}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_medico" class="form-label">Médico</label>
+        {{ form.medico }}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_data_hora" class="form-label">Data e Hora</label>
+        {{ form.data_hora }}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_motivo" class="form-label">Motivo</label>
+        {{ form.motivo }}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_status" class="form-label">Status</label>
+        {{ form.status }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+{% endblock %}

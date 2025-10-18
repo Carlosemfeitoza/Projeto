@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block center %}
+<h2>Lista de Agendamentos</h2>
+
+<a href="{% url 'agendamento_cadastrar' %}" class="btn btn-success mb-3">Novo Agendamento</a>
+
+<form method="get" class="form-inline mb-3">
+  <select name="cliente" class="form-control mr-2">
+    <option value="">Todos os clientes</option>
+    {% for cliente in clientes %}
+      <option value="{{ cliente.id }}" {% if cliente.id|stringformat:"s" == cliente_selected %}selected{% endif %}>{{ cliente.nome }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="medico" class="form-control mr-2">
+    <option value="">Todos os médicos</option>
+    {% for medico in medicos %}
+      <option value="{{ medico.id }}" {% if medico.id|stringformat:"s" == medico_selected %}selected{% endif %}>{{ medico.nome }}</option>
+    {% endfor %}
+  </select>
+
+  <select name="status" class="form-control mr-2">
+    <option value="">Todos os status</option>
+    {% for code, label in status_choices %}
+      <option value="{{ code }}" {% if status_selected == code %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+
+  <label class="mr-1">De</label>
+  <input type="date" name="start_date" value="{{ start_date }}" class="form-control mr-2">
+
+  <label class="mr-1">Até</label>
+  <input type="date" name="end_date" value="{{ end_date }}" class="form-control mr-2">
+
+  <button type="submit" class="btn btn-primary">Filtrar</button>
+</form>
+
+{% if is_paginated %}
+  <p>Mostrando {{ page_obj.start_index }}–{{ page_obj.end_index }} de {{ paginator.count }} itens</p>
+{% else %}
+  <p>Mostrando {{ page_obj|length }} de {{ paginator.count }} itens</p>
+{% endif %}
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Cliente</th>
+      <th>Médico</th>
+      <th>Data e Hora</th>
+      <th>Motivo</th>
+      <th>Status</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for agendamento in page_obj.object_list %}
+    <tr>
+      <td>{{ agendamento.cliente.nome }}</td>
+      <td>{{ agendamento.medico.nome }}</td>
+      <td>{{ agendamento.data_hora|date:"d/m/Y H:i" }}</td>
+      <td>{{ agendamento.motivo|truncatechars:30 }}</td>
+      <td>{{ agendamento.get_status_display }}</td>
+      <td>
+        <a href="{% url 'agendamento_detalhar' id=agendamento.id %}" class="btn btn-info btn-sm">Detalhar</a>
+        <a href="{% url 'agendamento_editar' id=agendamento.id %}" class="btn btn-primary btn-sm">Editar</a>
+        <a href="{% url 'agendamento_remover' id=agendamento.id %}" class="btn btn-danger btn-sm">Cancelar</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="6">Nenhum agendamento encontrado.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}{% if querystring %}&{{ querystring }}{% endif %}" class="btn btn-secondary">Anterior</a>
+  {% else %}
+    <span class="btn btn-light disabled">Anterior</span>
+  {% endif %}
+
+  <span style="margin:0 10px;">Página {{ page_obj.number }} de {{ paginator.num_pages }}</span>
+
+  {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}{% if querystring %}&{{ querystring }}{% endif %}" class="btn btn-secondary">Próxima</a>
+  {% else %}
+    <span class="btn btn-light disabled">Próxima</span>
+  {% endif %}
+</div>
+{% endblock %}
