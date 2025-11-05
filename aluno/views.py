@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.http import HttpResponseForbidden
 from django.contrib.auth.models import Group
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
@@ -22,15 +24,38 @@ class LoginForm(AuthenticationForm):
     password = forms.CharField(label="Senha", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
 @login_required
+def cliente_detalhar(request, id):
+    cliente = get_object_or_404(Cliente, id=id)
+    if not request.user.is_superuser and cliente.usuario != request.user:
+        messages.error(request, "Você não tem permissão para visualizar este cliente.")
+        return redirect('cliente_listar')
+
+    return render(request, 'cliente/cliente_detalhar.html', {'cliente': cliente})
+
+@login_required
 def cliente_editar(request, id):
-    if not request.user.is_superuser:
+    cliente = get_object_or_404(Cliente, id=id)
+
+    if not (request.user.is_superuser or (hasattr(cliente, 'usuario') and cliente.usuario == request.user)):
         messages.error(request, "Você não tem permissão para acessar esta página.")
         return redirect('index')
-    cliente = get_object_or_404(Cliente, id=id)
+
     if request.method == 'POST':
         form = ClienteForm(request.POST, request.FILES, instance=cliente)
         if form.is_valid():
-            form.save()
+            cliente = form.save()
+            if cliente.usuario:
+                user = cliente.usuario
+                user.first_name = cliente.nome
+                user.email = cliente.email or user.email
+                user.cpf = cliente.cpf or user.cpf
+                user.telefone = cliente.telefone or user.telefone
+                user.endereco = cliente.endereco or user.endereco
+                if cliente.foto:
+                    user.foto_perfil = cliente.foto
+
+                user.save()
+
             return redirect('cliente_listar')
     else:
         form = ClienteForm(instance=cliente)
@@ -38,10 +63,16 @@ def cliente_editar(request, id):
 
 @login_required
 def cliente_remover(request, id):
-    if not request.user.is_superuser:
-        messages.error(request, "Você não tem permissão para acessar esta página.")
-        return redirect('index')
     cliente = get_object_or_404(Cliente, id=id)
+    if not (request.user.is_superuser or (hasattr(cliente, 'usuario') and cliente.usuario == request.user)):
+        messages.error(request, "Você não tem permissão para executar esta ação.")
+        return redirect('index')
+    if hasattr(cliente, 'usuario') and cliente.usuario == request.user:
+        user_to_delete = cliente.usuario
+        logout(request)
+        user_to_delete.delete()
+        messages.info(request, "Sua conta e perfil foram excluídos.")
+        return redirect('login')
     cliente.delete()
     return redirect('cliente_listar')
 
@@ -61,7 +92,7 @@ def cliente_criar(request):
 
 @login_required
 def cliente_listar(request):
-    qs = Cliente.objects.select_related('cidade').all()
+    qs = Cliente.objects.select_related('cidade').exclude(usuario__is_superuser=True)
     q = request.GET.get('q', '').strip()
     cidade_id = request.GET.get('cidade', '').strip()
     if q:
@@ -95,7 +126,7 @@ def cliente_listar(request):
 @login_required
 def index(request):
     context = {
-        'total_clientes': Cliente.objects.count(),
+        'total_clientes': Cliente.objects.exclude(usuario__is_superuser=True).count(),
         'total_cidades': Cidade.objects.count(),
         'total_medicos': Medico.objects.count(),
         'total_agendamentos': Agendamento.objects.count()
@@ -105,11 +136,15 @@ def index(request):
 @login_required
 def agendamento_listar(request):
     qs = Agendamento.objects.select_related('cliente', 'medico').all()
+    if not request.user.is_superuser and hasattr(request.user, 'cliente'):
+
+        qs = qs.filter(cliente=request.user.cliente)
     cliente_id = request.GET.get('cliente', '').strip()
     medico_id = request.GET.get('medico', '').strip()
     status = request.GET.get('status', '').strip()
     start_date = request.GET.get('start_date', '').strip()
     end_date = request.GET.get('end_date', '').strip()
+
     if cliente_id:
         qs = qs.filter(cliente_id=cliente_id)
     if medico_id:
@@ -128,6 +163,7 @@ def agendamento_listar(request):
         page_obj = paginator.page(1)
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
+
     params = request.GET.copy()
     if 'page' in params:
         params.pop('page')
@@ -147,6 +183,7 @@ def agendamento_listar(request):
         'status_choices': Agendamento.STATUS_CHOICES,
         'agendamentos': page_obj.object_list,
     }
+
     return render(request, "agendamento/agendamentos.html", context)
 
 @login_required
@@ -162,10 +199,9 @@ def agendamento_cadastrar(request):
 
 @login_required
 def agendamento_editar(request, id):
-    if not request.user.is_superuser:
-        messages.error(request, "Você não tem permissão para acessar esta página.")
-        return redirect('index')
     agendamento = get_object_or_404(Agendamento, id=id)
+    if not request.user.is_superuser and agendamento.cliente.usuario != request.user:
+        return HttpResponseForbidden("Você não tem permissão para editar este agendamento.")
     if request.method == 'POST':
         form = AgendamentoForm(request.POST, instance=agendamento)
         if form.is_valid():
@@ -173,22 +209,31 @@ def agendamento_editar(request, id):
             return redirect('agendamento_listar')
     else:
         form = AgendamentoForm(instance=agendamento)
-    return render(request, "agendamento/form.html", {'form': form})
+
+    return render(request, 'agendamento/form.html', {'form': form})
 
 @login_required
 def agendamento_remover(request, id):
-    if not request.user.is_superuser:
-        messages.error(request, "Você não tem permissão para acessar esta página.")
-        return redirect('index')
     agendamento = get_object_or_404(Agendamento, id=id)
-    agendamento.delete()
+
+    # Permissão
+    if not request.user.is_superuser and agendamento.cliente.usuario != request.user:
+        return HttpResponseForbidden("Você não tem permissão para remover este agendamento.")
+
+    if request.method == 'POST':
+        agendamento.delete()
+        return redirect('agendamento_listar')
+
+    # Se chegar aqui por GET, só redireciona para lista
     return redirect('agendamento_listar')
 
 @login_required
 def agendamento_detalhar(request, id):
     agendamento = get_object_or_404(Agendamento, id=id)
-    return render(request, "agendamento/detalhes.html", {'agendamento': agendamento})
+    if not request.user.is_superuser and agendamento.cliente.usuario != request.user:
+        return HttpResponseForbidden("Você não tem permissão para ver este agendamento.")
 
+    return render(request, 'agendamento/detalhes.html', {'agendamento': agendamento})
 @login_required
 def cidade_criar(request):
     if not request.user.is_superuser:
@@ -258,6 +303,11 @@ def cidade_remover(request, id):
     cidade = get_object_or_404(Cidade, id=id)
     cidade.delete()
     return redirect('cidade_listar')
+
+@login_required
+def medico_detalhar(request, id):
+    medico = get_object_or_404(Medico, id=id)
+    return render(request, 'medico/medico_detalhes.html', {'medico': medico})
 
 @login_required
 def medico_listar(request):
@@ -337,13 +387,47 @@ def cadastrar_usuario(request):
     if request.method == 'POST':
         form = UsuarioCustomizadoCreationForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save()
-            grupo_simples, created = Group.objects.get_or_create(name='USUARIO_SIMPLES')
-            user.groups.add(grupo_simles if 'grupo_simles' in locals() else grupo_simples)
+            cpf = form.cleaned_data.get('cpf')
+            # Checa se já existe um cliente com esse CPF
+            cliente_existente = Cliente.objects.filter(cpf=cpf).first()
+
+            # Cria o usuário
+            user = form.save(commit=True)
+            grupo_simples, _ = Group.objects.get_or_create(name='USUARIO_SIMPLES')
+            user.groups.add(grupo_simples)
+
+            # Apenas cria cliente se o usuário não for superuser
+            if not user.is_superuser:
+                if cliente_existente:
+                    # Vincula o usuário existente ao cliente existente
+                    cliente_existente.usuario = user
+                    cliente_existente.nome = user.get_full_name() or cliente_existente.nome
+                    cliente_existente.email = user.email or cliente_existente.email
+                    cliente_existente.telefone = user.telefone or cliente_existente.telefone
+                    cliente_existente.endereco = user.endereco or cliente_existente.endereco
+                    if getattr(user, 'cidade', None):
+                        cliente_existente.cidade = user.cidade
+                    if getattr(user, 'foto_perfil', None):
+                        cliente_existente.foto = user.foto_perfil
+                    cliente_existente.save()
+                else:
+                    # Cria um cliente novo vinculado a esse usuário
+                    Cliente.objects.create(
+                        usuario=user,
+                        nome=user.get_full_name() or user.username,
+                        email=user.email,
+                        cpf=user.cpf,
+                        telefone=user.telefone,
+                        endereco=user.endereco,
+                        cidade=getattr(user, 'cidade', None),
+                        foto=getattr(user, 'foto_perfil', None),
+                    )
+
             messages.success(request, 'Cadastro realizado com sucesso! Faça login para continuar.')
             return redirect('login')
     else:
         form = UsuarioCustomizadoCreationForm()
+
     return render(request, 'usuarios/cadastrar.html', {'form': form})
 
 def login_view(request):
@@ -375,7 +459,42 @@ def perfil_view(request):
     if request.method == 'POST':
         form = PerfilForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
-            form.save()
+            with transaction.atomic():
+                user = form.save() 
+
+                # Apenas cria ou atualiza cliente se o usuário não for superuser
+                if not user.is_superuser:
+                    cliente, created = Cliente.objects.get_or_create(
+                        usuario=user,
+                        defaults={
+                            'nome': user.get_full_name() or user.username,
+                            'email': user.email or '',
+                            'cpf': getattr(user, 'cpf', '') or '',
+                            'telefone': getattr(user, 'telefone', '') or '',
+                            'endereco': getattr(user, 'endereco', '') or '',
+                        }
+                    )
+                    cliente.nome = user.get_full_name() or user.username
+                    cliente.email = user.email or cliente.email
+                    if getattr(user, 'cpf', None):
+                        cliente.cpf = user.cpf
+                    cliente.telefone = getattr(user, 'telefone', cliente.telefone)
+                    cliente.endereco = getattr(user, 'endereco', cliente.endereco)
+                    user_cidade = getattr(user, 'cidade', None)
+                    if user_cidade:
+                        if isinstance(user_cidade, Cidade):
+                            cliente.cidade = user_cidade
+                        else:
+                            try:
+                                cidade_obj = Cidade.objects.filter(nome__iexact=str(user_cidade)).first()
+                                if cidade_obj:
+                                    cliente.cidade = cidade_obj
+                            except Exception:
+                                pass
+                    if getattr(user, 'foto_perfil', None):
+                        cliente.foto = user.foto_perfil
+                    cliente.save()
+
             messages.success(request, 'Perfil atualizado com sucesso!')
             return redirect('perfil')
         else:

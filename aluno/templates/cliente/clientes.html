@@ -52,8 +52,19 @@
       <td>{{ cliente.cidade.nome }}</td>
       <td>{{ cliente.telefone }}</td>
       <td>
-        <a href="{% url 'cliente_editar' id=cliente.id %}" class="btn btn-primary btn-sm">Editar</a>
-        <a href="{% url 'cliente_remover' id=cliente.id %}" class="btn btn-danger btn-sm">Remover</a>
+        {% comment %}
+          Exibimos os botões apenas se:
+          - o usuário for superusuário, OU
+          - o cliente estiver associado ao usuário logado.
+        {% endcomment %}
+        {% if user.is_superuser or cliente.usuario and cliente.usuario == user %}
+          <a href="{% url 'cliente_detalhar' id=cliente.id %}" class="btn btn-info btn-sm">Detalhar</a>
+          <a href="{% url 'cliente_editar' id=cliente.id %}" class="btn btn-primary btn-sm">Editar</a>
+          <a href="{% url 'cliente_remover' id=cliente.id %}" class="btn btn-danger btn-sm"
+             onclick="return confirm('Tem certeza que deseja remover este perfil?');">Remover</a>
+        {% else %}
+          <span class="text-muted" style="font-size: 0.9em;">Sem permissão</span>
+        {% endif %}
       </td>
     </tr>
     {% empty %}
@@ -78,4 +89,3 @@
   {% endif %}
 </div>
 {% endblock %}
-

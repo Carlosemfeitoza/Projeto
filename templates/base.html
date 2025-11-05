@@ -5,13 +5,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        /* Hover simples para o menu lateral e logo */
+        .sidebar .nav-link:hover, 
+        .navbar-brand:hover {
+            background-color: #e9ecef;
+            color: #007bff !important;
+            transition: 0.2s;
+        }
+        .sidebar .nav-link.active {
+            color: #007bff;
+        }
+
+        /* Mensagem fixa na sidebar */
+        .sidebar .sidebar-message {
+            padding: 0.75rem 1rem;
+            color: #6c757d;
+            font-size: 0.875rem;
+        }
+
+        /* Evitar que o dropdown do perfil aumente a navbar */
+        .navbar .dropdown-menu {
+            top: 100%; /* começa logo abaixo do link */
+            right: 0;
+        }
+    </style>
     <title>MedAgenda</title>
 </head>
 <body>
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'index' %}">MedAgenda</a>
-
 
         <form class="form-inline w-100" method="get" action="{% url 'search' %}">
             <input 
@@ -49,36 +74,27 @@
             <div class="sidebar-sticky">
               <ul class="nav flex-column">
                 <li class="nav-item">
-                  <a class="nav-link active" href="{% url 'index' %}">
-                    Dashboard <span class="sr-only">(current)</span>
-                  </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'index' %}">
+                        Dashboard <span class="sr-only">(current)</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'cliente_listar' %}">Clientes</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'cliente_listar' %}active{% endif %}" href="{% url 'cliente_listar' %}">Clientes</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'medico_listar' %}">Médicos</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'medico_listar' %}active{% endif %}" href="{% url 'medico_listar' %}">Médicos</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'agendamento_listar' %}">Agendamentos</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'agendamento_listar' %}active{% endif %}" href="{% url 'agendamento_listar' %}">Agendamentos</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'cidade_listar' %}">Cidades</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'cidade_listar' %}active{% endif %}" href="{% url 'cidade_listar' %}">Cidades</a>
                 </li>
               </ul>
 
-              <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                <span>Saved reports</span>
-                <a class="d-flex align-items-center text-muted" href="#"></a>
-              </h6>
-              <ul class="nav flex-column mb-2">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Current month</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Last quarter</a>
-                </li>
-              </ul>
+              <div class="sidebar-message mt-4 mb-2">
+                MedAgenda, o melhor site de agendamentos médicos do país.
+              </div>
             </div>
           </nav>
 
@@ -100,9 +116,8 @@
         </div>
       </div>
 
-      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+      <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>
-

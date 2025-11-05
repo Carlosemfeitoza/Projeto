@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
 class UsuarioCustomizado(AbstractUser):
@@ -31,13 +32,19 @@ class Cidade(models.Model):
         return self.nome + " - " + self.sigla_estado 
 
 class Cliente(models.Model):
-    nome = models.CharField(max_length=150)             
-    endereco = models.CharField(max_length=250)
-    email = models.EmailField()
-    cidade = models.ForeignKey(Cidade, on_delete=models.CASCADE)
-    foto = models.ImageField(upload_to='fotos_clientes/', blank=True, null=True)
-    telefone = models.CharField(max_length=15, blank=True)
+    usuario = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='cliente',
+        null=True, blank=True
+    )
+    nome = models.CharField(max_length=150)
+    email = models.EmailField(blank=True, null=True)
     cpf = models.CharField(max_length=14, unique=True)
+    telefone = models.CharField(max_length=15, blank=True, null=True)
+    endereco = models.CharField(max_length=255, blank=True, null=True)
+    cidade = models.ForeignKey('Cidade', on_delete=models.SET_NULL, blank=True, null=True)
+    foto = models.ImageField(upload_to='fotos_clientes/', blank=True, null=True)
 
     def __str__(self):
         return self.nome

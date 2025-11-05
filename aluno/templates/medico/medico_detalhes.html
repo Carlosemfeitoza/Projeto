@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block center %}
+<h2>Detalhes do Médico</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Nome</th>
+        <td>{{ medico.nome }}</td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td>{{ medico.email }}</td>
+    </tr>
+    <tr>
+        <th>Especialidade</th>
+        <td>{{ medico.especialidade }}</td>
+    </tr>
+    <tr>
+        <th>Telefone</th>
+        <td>{{ medico.telefone }}</td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td>{% if medico.ativo %}Ativo{% else %}Inativo{% endif %}</td>
+    </tr>
+</table>
+
+<a href="{% url 'medico_listar' %}" class="btn btn-secondary">Voltar</a>
+{% endblock %}

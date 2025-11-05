@@ -50,8 +50,17 @@
       <td>{{ medico.especialidade }}</td>
       <td>{{ medico.telefone }}</td>
       <td>
-        <a href="{% url 'medico_editar' id=medico.id %}" class="btn btn-primary btn-sm">Editar</a>
-        <a href="{% url 'medico_remover' id=medico.id %}" class="btn btn-danger btn-sm">Remover</a>
+        <!-- Botão Detalhar (visível para todos os usuários) -->
+        <a href="{% url 'medico_detalhar' id=medico.id %}" class="btn btn-info btn-sm">Detalhar</a>
+
+        {% comment %}
+          Botões de edição e remoção apenas para superusuários
+        {% endcomment %}
+        {% if user.is_superuser %}
+          <a href="{% url 'medico_editar' id=medico.id %}" class="btn btn-primary btn-sm">Editar</a>
+          <a href="{% url 'medico_remover' id=medico.id %}" class="btn btn-danger btn-sm"
+             onclick="return confirm('Tem certeza que deseja remover este médico?');">Remover</a>
+        {% endif %}
       </td>
     </tr>
     {% empty %}

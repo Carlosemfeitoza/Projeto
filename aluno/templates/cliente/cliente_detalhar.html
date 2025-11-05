@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block center %}
+<h2>Detalhes do Cliente</h2>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Nome</th>
+        <td>{{ cliente.nome }}</td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td>{{ cliente.email }}</td>
+    </tr>
+    <tr>
+        <th>Telefone</th>
+        <td>{{ cliente.telefone }}</td>
+    </tr>
+    <tr>
+        <th>Cidade</th>
+        <td>{{ cliente.cidade.nome }}</td>
+    </tr>
+    {% if cliente.usuario %}
+    <tr>
+        <th>Usuário Vinculado</th>
+        <td>{{ cliente.usuario.username }}</td>
+    </tr>
+    {% endif %}
+    {% if cliente.cpf %}
+    <tr>
+        <th>CPF</th>
+        <td>{{ cliente.cpf }}</td>
+    </tr>
+    {% endif %}
+</table>
+
+<a href="{% url 'cliente_listar' %}" class="btn btn-secondary">Voltar</a>
+{% endblock %}

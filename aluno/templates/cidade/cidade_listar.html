@@ -32,8 +32,12 @@
       <td>{{ cidade.nome }}</td>
       <td>{{ cidade.sigla_estado }}</td>
       <td>
-        <a href="{% url 'cidade_editar' cidade.id %}" class="btn btn-primary">Editar</a>
-        <a href="{% url 'cidade_remover' cidade.id %}" class="btn btn-danger">Deletar</a>
+        {% if request.user.is_superuser %}
+          <a href="{% url 'cidade_editar' cidade.id %}" class="btn btn-primary btn-sm">Editar</a>
+          <a href="{% url 'cidade_remover' cidade.id %}" class="btn btn-danger btn-sm">Deletar</a>
+        {% else %}
+          <span class="text-secondary" style="font-size: 0.9em;">Apenas administradores podem editar ou remover cidades.</span>
+        {% endif %}
       </td>
     </tr>
     {% empty %}

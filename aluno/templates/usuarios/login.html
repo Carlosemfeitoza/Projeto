@@ -76,13 +76,13 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
-        .link-cadastro {
+        .link-cadastro, .link-reset {
             color: var(--primary-green);
             text-decoration: none;
             font-weight: 500;
         }
 
-        .link-cadastro:hover {
+        .link-cadastro:hover, .link-reset:hover {
             text-decoration: underline;
         }
 
@@ -90,13 +90,19 @@
             font-weight: 500;
             color: var(--dark-gray);
         }
+
+        .text-reset {
+            text-align: right;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="login-container">
         <div class="row g-0">
             <div class="col-md-5 login-left">
-                <i class="bi bi-briefcase-fill"></i>
+                <i class="bi-hospital"></i>
                 <h2>MedAgenda</h2>
                 <p>Sistema de gerenciamento de consultas médicas</p>
             </div>
@@ -146,6 +152,11 @@
                             {{ form.non_field_errors }}
                         </div>
                     {% endif %}
+
+                    <!-- Link de recuperação de senha -->
+                    <div class="text-reset">
+                        <a href="{% url 'password_reset' %}" class="link-reset">Esqueceu sua senha?</a>
+                    </div>
 
                     <div class="d-grid mb-3">
                         <button type="submit" class="btn btn-success btn-login">
