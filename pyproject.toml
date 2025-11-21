@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "MedAgenda"
+version = "0.1.0"
+description = "Sistema de agendamento e manutenção de consultas médicas"
+authors = [
+    { name = "Carlos Eduardo Melo Feitoza", email = "carlos.feitoza@escolar.ifrn.edu.br" },
+    { name = "Victor Hugo de Alencar Regis", email = "h.regis@escolar.ifrn.edu.br" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "asgiref==3.7.2",
+    "Django==4.2.2",
+    "sqlparse==0.4.4",
+    "Pillow==10.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Carlosemfeitoza/Projeto"
+Repository = "https://github.com/Carlosemfeitoza/Projeto"
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "flake8",
+    "isort",
+    "pytest",
+    "pytest-django",
+    "pytest-asyncio",
+]
+lint = [
+    "black",
+    "flake8",
+    "isort",
+]
+test = [
+    "pytest",
+    "pytest-django",
+    "pytest-asyncio",
+]
+
+# ----------------------------
+# MUITO IMPORTANTE:
+# Corrige o erro de múltiplos pacotes não-Python sendo detectados
+# ----------------------------
+[tool.setuptools.packages.find]
+include = ["main", "aluno"]
+exclude = ["media", "static", "templates"]
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+
+[tool.flake8]
+max-line-length = 88
+extend-ignore = ["E203", "W503"]

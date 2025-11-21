@@ -12,109 +12,290 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('auth', '0012_alter_user_first_name_max_length'),
+        ("auth", "0012_alter_user_first_name_max_length"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Cidade',
+            name="Cidade",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nome', models.CharField(max_length=100)),
-                ('sigla_estado', models.CharField(max_length=2)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("nome", models.CharField(max_length=100)),
+                ("sigla_estado", models.CharField(max_length=2)),
             ],
         ),
         migrations.CreateModel(
-            name='Medico',
+            name="Medico",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nome', models.CharField(max_length=100)),
-                ('cpf', models.CharField(max_length=14, unique=True)),
-                ('email', models.EmailField(max_length=254)),
-                ('telefone', models.CharField(blank=True, max_length=15)),
-                ('data_nascimento', models.DateField(blank=True, null=True)),
-                ('especialidade', models.CharField(max_length=100)),
-                ('salario', models.DecimalField(blank=True, decimal_places=2, max_digits=10, null=True)),
-                ('data_contratacao', models.DateField(blank=True, null=True)),
-                ('registro_profissional', models.CharField(blank=True, max_length=50, null=True)),
-                ('ativo', models.BooleanField(default=True)),
-                ('foto', models.ImageField(blank=True, null=True, upload_to='medicos/')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("nome", models.CharField(max_length=100)),
+                ("cpf", models.CharField(max_length=14, unique=True)),
+                ("email", models.EmailField(max_length=254)),
+                ("telefone", models.CharField(blank=True, max_length=15)),
+                ("data_nascimento", models.DateField(blank=True, null=True)),
+                ("especialidade", models.CharField(max_length=100)),
+                (
+                    "salario",
+                    models.DecimalField(
+                        blank=True, decimal_places=2, max_digits=10, null=True
+                    ),
+                ),
+                ("data_contratacao", models.DateField(blank=True, null=True)),
+                (
+                    "registro_profissional",
+                    models.CharField(blank=True, max_length=50, null=True),
+                ),
+                ("ativo", models.BooleanField(default=True)),
+                (
+                    "foto",
+                    models.ImageField(blank=True, null=True, upload_to="medicos/"),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Professor',
+            name="Professor",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nome_professor', models.CharField(max_length=100)),
-                ('cpf', models.CharField(max_length=14, unique=True)),
-                ('email', models.EmailField(max_length=254)),
-                ('telefone', models.CharField(max_length=15)),
-                ('data_nascimento', models.DateField()),
-                ('especialidade', models.CharField(max_length=100)),
-                ('salario', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('data_contratacao', models.DateField()),
-                ('ativo', models.BooleanField(default=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("nome_professor", models.CharField(max_length=100)),
+                ("cpf", models.CharField(max_length=14, unique=True)),
+                ("email", models.EmailField(max_length=254)),
+                ("telefone", models.CharField(max_length=15)),
+                ("data_nascimento", models.DateField()),
+                ("especialidade", models.CharField(max_length=100)),
+                ("salario", models.DecimalField(decimal_places=2, max_digits=10)),
+                ("data_contratacao", models.DateField()),
+                ("ativo", models.BooleanField(default=True)),
             ],
         ),
         migrations.CreateModel(
-            name='UsuarioCustomizado',
+            name="UsuarioCustomizado",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('password', models.CharField(max_length=128, verbose_name='password')),
-                ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
-                ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
-                ('username', models.CharField(error_messages={'unique': 'A user with that username already exists.'}, help_text='Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.', max_length=150, unique=True, validators=[django.contrib.auth.validators.UnicodeUsernameValidator()], verbose_name='username')),
-                ('first_name', models.CharField(blank=True, max_length=150, verbose_name='first name')),
-                ('last_name', models.CharField(blank=True, max_length=150, verbose_name='last name')),
-                ('is_staff', models.BooleanField(default=False, help_text='Designates whether the user can log into this admin site.', verbose_name='staff status')),
-                ('is_active', models.BooleanField(default=True, help_text='Designates whether this user should be treated as active. Unselect this instead of deleting accounts.', verbose_name='active')),
-                ('date_joined', models.DateTimeField(default=django.utils.timezone.now, verbose_name='date joined')),
-                ('cpf', models.CharField(max_length=11, unique=True, verbose_name='CPF')),
-                ('email', models.EmailField(max_length=254, unique=True, verbose_name='E-mail')),
-                ('telefone', models.CharField(blank=True, max_length=15, null=True)),
-                ('endereco', models.CharField(blank=True, max_length=255, null=True)),
-                ('bairro', models.CharField(blank=True, max_length=100, null=True)),
-                ('cidade', models.CharField(blank=True, max_length=100, null=True)),
-                ('data_nascimento', models.DateField(blank=True, null=True)),
-                ('foto_perfil', models.ImageField(blank=True, null=True, upload_to='perfil/')),
-                ('ativo', models.BooleanField(default=True)),
-                ('receber_notificacoes', models.BooleanField(default=True)),
-                ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.group', verbose_name='groups')),
-                ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.permission', verbose_name='user permissions')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "last_login",
+                    models.DateTimeField(
+                        blank=True, null=True, verbose_name="last login"
+                    ),
+                ),
+                (
+                    "is_superuser",
+                    models.BooleanField(
+                        default=False,
+                        help_text="Designates that this user has all permissions without explicitly assigning them.",
+                        verbose_name="superuser status",
+                    ),
+                ),
+                (
+                    "username",
+                    models.CharField(
+                        error_messages={
+                            "unique": "A user with that username already exists."
+                        },
+                        help_text="Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.",
+                        max_length=150,
+                        unique=True,
+                        validators=[
+                            django.contrib.auth.validators.UnicodeUsernameValidator()
+                        ],
+                        verbose_name="username",
+                    ),
+                ),
+                (
+                    "first_name",
+                    models.CharField(
+                        blank=True, max_length=150, verbose_name="first name"
+                    ),
+                ),
+                (
+                    "last_name",
+                    models.CharField(
+                        blank=True, max_length=150, verbose_name="last name"
+                    ),
+                ),
+                (
+                    "is_staff",
+                    models.BooleanField(
+                        default=False,
+                        help_text="Designates whether the user can log into this admin site.",
+                        verbose_name="staff status",
+                    ),
+                ),
+                (
+                    "is_active",
+                    models.BooleanField(
+                        default=True,
+                        help_text="Designates whether this user should be treated as active. Unselect this instead of deleting accounts.",
+                        verbose_name="active",
+                    ),
+                ),
+                (
+                    "date_joined",
+                    models.DateTimeField(
+                        default=django.utils.timezone.now, verbose_name="date joined"
+                    ),
+                ),
+                (
+                    "cpf",
+                    models.CharField(max_length=11, unique=True, verbose_name="CPF"),
+                ),
+                (
+                    "email",
+                    models.EmailField(
+                        max_length=254, unique=True, verbose_name="E-mail"
+                    ),
+                ),
+                ("telefone", models.CharField(blank=True, max_length=15, null=True)),
+                ("endereco", models.CharField(blank=True, max_length=255, null=True)),
+                ("bairro", models.CharField(blank=True, max_length=100, null=True)),
+                ("cidade", models.CharField(blank=True, max_length=100, null=True)),
+                ("data_nascimento", models.DateField(blank=True, null=True)),
+                (
+                    "foto_perfil",
+                    models.ImageField(blank=True, null=True, upload_to="perfil/"),
+                ),
+                ("ativo", models.BooleanField(default=True)),
+                ("receber_notificacoes", models.BooleanField(default=True)),
+                (
+                    "groups",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="The groups this user belongs to. A user will get all permissions granted to each of their groups.",
+                        related_name="user_set",
+                        related_query_name="user",
+                        to="auth.group",
+                        verbose_name="groups",
+                    ),
+                ),
+                (
+                    "user_permissions",
+                    models.ManyToManyField(
+                        blank=True,
+                        help_text="Specific permissions for this user.",
+                        related_name="user_set",
+                        related_query_name="user",
+                        to="auth.permission",
+                        verbose_name="user permissions",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'user',
-                'verbose_name_plural': 'users',
-                'abstract': False,
+                "verbose_name": "user",
+                "verbose_name_plural": "users",
+                "abstract": False,
             },
             managers=[
-                ('objects', django.contrib.auth.models.UserManager()),
+                ("objects", django.contrib.auth.models.UserManager()),
             ],
         ),
         migrations.CreateModel(
-            name='Cliente',
+            name="Cliente",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('nome', models.CharField(max_length=150)),
-                ('endereco', models.CharField(max_length=250)),
-                ('email', models.EmailField(max_length=254)),
-                ('foto', models.ImageField(blank=True, null=True, upload_to='fotos_clientes/')),
-                ('telefone', models.CharField(blank=True, max_length=15)),
-                ('cpf', models.CharField(max_length=14, unique=True)),
-                ('cidade', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='aluno.cidade')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("nome", models.CharField(max_length=150)),
+                ("endereco", models.CharField(max_length=250)),
+                ("email", models.EmailField(max_length=254)),
+                (
+                    "foto",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="fotos_clientes/"
+                    ),
+                ),
+                ("telefone", models.CharField(blank=True, max_length=15)),
+                ("cpf", models.CharField(max_length=14, unique=True)),
+                (
+                    "cidade",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="aluno.cidade"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Agendamento',
+            name="Agendamento",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('data_hora', models.DateTimeField()),
-                ('motivo', models.TextField(blank=True, null=True)),
-                ('status', models.CharField(choices=[('P', 'Pendente'), ('C', 'Confirmado'), ('X', 'Cancelado'), ('F', 'Concluído')], default='P', max_length=1)),
-                ('criado_em', models.DateTimeField(auto_now_add=True)),
-                ('atualizado_em', models.DateTimeField(auto_now=True)),
-                ('cliente', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='agendamentos', to='aluno.cliente')),
-                ('medico', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='agendamentos', to='aluno.medico')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("data_hora", models.DateTimeField()),
+                ("motivo", models.TextField(blank=True, null=True)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("P", "Pendente"),
+                            ("C", "Confirmado"),
+                            ("X", "Cancelado"),
+                            ("F", "Concluído"),
+                        ],
+                        default="P",
+                        max_length=1,
+                    ),
+                ),
+                ("criado_em", models.DateTimeField(auto_now_add=True)),
+                ("atualizado_em", models.DateTimeField(auto_now=True)),
+                (
+                    "cliente",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="agendamentos",
+                        to="aluno.cliente",
+                    ),
+                ),
+                (
+                    "medico",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="agendamentos",
+                        to="aluno.medico",
+                    ),
+                ),
             ],
         ),
     ]
