@@ -1,77 +1,93 @@
-# Projeto Matrícula
+MedAgenda — Sistema de Agendamentos Médicos
 
-Sistema de Matrícula em Django
+Projeto desenvolvido utilizando o framework Django para criação de um sistema de gerenciamento de clientes, médicos, cidades e agendamentos. O sistema possui autenticação, upload de imagens, filtros em todas as listagens e controle básico de permissões. O objetivo do projeto é disponibilizar uma forma simples e organizada de cadastrar médicos, registrar clientes e criar agendamentos de consultas.
 
-## Sobre o Projeto
+Instruções de instalação e configuração
+Pré-requisitos
 
-Este é um projeto desenvolvido para a disciplina de **Programação para Internet**, utilizando **Django 4.2.2**, uma poderosa framework de desenvolvimento web baseada em Python. O principal objetivo é criar um sistema de agendamento médico.
+Windows 10/11
+Python 3.10+ (marque a opção “Add Python to PATH” ao instalar)
+Git (necessário para clonar o repositório)
 
-## Recursos Utilizados
+Passo a passo (Windows)
+Clonar o projeto
+git clone https://github.com/Carlosemfeitoza/Projeto
+cd seu-repositorio
 
-* Django 4.2.2
-* Python 3.x
-* SQLite
-* HTML/CSS/Bootstrap
-
-## Instalação
-
-### Pré-requisitos
-
-Certifique-se de ter o **Python** e o **Django** instalados em seu computador com Windows.
-Se ainda não tiver, instale pelo site oficial:
-
-* [Python](https://www.python.org/downloads/)
-* [Django](https://docs.djangoproject.com/en/4.2/topics/install/)
-
-### Passos para instalação
-
-1. **Clone o repositório**
-
-```bash
-git clone https://github.com/JefersonQueiroga/matricula.git
-```
-
-2. **Entre na pasta do projeto**
-
-```bash
-cd matricula
-```
-
-3. **Crie um ambiente virtual**
-
-```bash
+Criar o ambiente virtual
 python -m venv venv
-```
 
-4. **Ative o ambiente virtual**
+Ativar o ambiente virtual
+.\venv\Scripts\Activate
 
-```bash
-venv\Scripts\activate
-```
-
-5. **Instale as dependências do projeto**
-
-```bash
+Instalar dependências
 pip install -r requirements.txt
-```
 
-6. **Execute as migrações**
-
-```bash
-python manage.py makemigrations
+Aplicar migrações
 python manage.py migrate
-```
 
-7. **Carregue os dados iniciais de cidades e cursos**
+Criar superusuário (necessário para acessar /admin e gerenciar os cadastros)
+python manage.py createsuperuser
 
-```bash
-python manage.py loaddata dados_iniciais.json
-```
-
-8. **Inicie o servidor**
-
-```bash
+Executar o servidor
 python manage.py runserver
-```
 
-Agora, o sistema estará disponível em `http://localhost:8000`.
+Abrir o app
+
+Interface principal: http://127.0.0.1:8000/
+
+Admin Django: http://127.0.0.1:8000/admin/
+
+Funcionamento geral do sistema
+
+O sistema oferece:
+
+— Cadastro de Médicos
+— Cadastro de Clientes
+— Cadastro de Cidades
+— Cadastro e gerenciamento de Agendamentos
+— Filtros em todas as listagens (clientes, médicos, cidades e agendamentos)
+— Paginação nas listagens
+— Upload de imagens (perfil e fotos)
+— Autenticação com login, logout, registro e recuperação de senha
+— Interface simples, organizada e responsiva
+
+Esses recursos permitem que o usuário gerencie todos os dados básicos de uma clínica de forma prática.
+
+Estrutura básica do projeto
+
+O projeto utiliza:
+
+Django (backend e templates)
+
+SQLite (banco de dados padrão)
+
+HTML + CSS + Bootstrap (interface)
+
+Pillow (upload de imagens)
+
+O repositório contém:
+
+Aplicações separadas por função
+
+Templates organizados
+
+Sistema de mensagens
+
+Páginas específicas para login, cadastro e recuperação de senha
+
+Pastas para armazenamento de imagens (media/)
+
+Observações importantes
+
+Durante o desenvolvimento, o envio de e-mails usa o backend de console, então o link de redefinição de senha aparece diretamente no terminal onde o servidor está rodando.
+
+Em settings.py, certifique-se de que MEDIA_URL e MEDIA_ROOT estão configurados corretamente para exibir imagens.
+
+A pasta media/ será criada automaticamente após o primeiro upload.
+
+Em produção, é necessário configurar um servidor de arquivos estáticos e de mídia.
+
+requirements.txt sugerido
+Django==4.2.2
+pillow
