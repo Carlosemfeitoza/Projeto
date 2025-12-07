@@ -1,77 +1,149 @@
-# Projeto Matrícula
+# **MedAgenda — Sistema de Agendamentos Médicos 🏥**
 
-Sistema de Matrícula em Django
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-blue)
+![Python](https://img.shields.io/badge/Python-3.10+-yellow)
+![Django](https://img.shields.io/badge/Django-4.2-green)
+![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-## Sobre o Projeto
+Sistema web desenvolvido com **Django** para gerenciar **clientes**, **médicos**, **cidades** e **agendamentos médicos**.  
+O projeto oferece uma interface simples, funcional e ideal para uso acadêmico.
 
-Este é um projeto desenvolvido para a disciplina de **Programação para Internet**, utilizando **Django 4.2.2**, uma poderosa framework de desenvolvimento web baseada em Python. O principal objetivo é criar um sistema de agendamento médico.
+---
 
-## Recursos Utilizados
+## **📌 Funcionalidades Principais**
 
-* Django 4.2.2
-* Python 3.x
-* SQLite
-* HTML/CSS/Bootstrap
+- **Gerenciamento completo de Médicos**
+  - Cadastro, edição, exclusão e upload de foto
 
-## Instalação
+- **Gerenciamento de Clientes**
+  - Inclusão, edição, exclusão e foto de perfil
 
-### Pré-requisitos
+- **Cadastro de Cidades**
+  - Utilizadas como referência para médicos e clientes
 
-Certifique-se de ter o **Python** e o **Django** instalados em seu computador com Windows.
-Se ainda não tiver, instale pelo site oficial:
+- **Agendamentos Médicos**
+  - Criação, edição, detalhamento e cancelamento (POST seguro)
+  - Exibição organizada com paginação e datas formatadas
 
-* [Python](https://www.python.org/downloads/)
-* [Django](https://docs.djangoproject.com/en/4.2/topics/install/)
+- **Filtros em todas as listagens**
+  - Por nome, cidade, especialidade, datas, status etc.
 
-### Passos para instalação
+- **Sistema de Autenticação**
+  - Login
+  - Logout
+  - Cadastro de usuário
+  - Recuperação de senha via console
 
-1. **Clone o repositório**
+- **Controle básico de permissões**
+  - Usuário só pode editar e excluir seus próprios agendamentos
+  - Superusuários podem gerenciar tudo
 
+- **Interface Responsiva**
+  - Desenvolvida com **Bootstrap**
+
+---
+
+## **📦 Tecnologias Utilizadas**
+
+- **Python 3.x**
+- **Django 4.2**
+- **SQLite** como banco padrão
+- **Bootstrap 4/5**
+- **Pillow** (upload de imagens)
+
+---
+
+## **🔧 Instalação e Configuração (Windows)**
+
+### **Pré-requisitos**
+- Windows 10 ou 11  
+- Python 3.10+ (com “Add Python to PATH”)  
+- Git instalado  
+
+---
+
+## **🚀 Passo a Passo para Rodar o Projeto**
+
+### **1. Clonar o repositório**
 ```bash
-git clone https://github.com/JefersonQueiroga/matricula.git
+git clone https://github.com/Carlosemfeitoza/Projeto
+cd seu-repositorio
 ```
 
-2. **Entre na pasta do projeto**
-
-```bash
-cd matricula
-```
-
-3. **Crie um ambiente virtual**
-
+### **2. Criar o ambiente virtual**
 ```bash
 python -m venv venv
 ```
 
-4. **Ative o ambiente virtual**
-
+### **3. Ativar o ambiente virtual**
 ```bash
-venv\Scripts\activate
+.\venv\Scripts\Activate
 ```
 
-5. **Instale as dependências do projeto**
-
+### **4. Instalar dependências**
 ```bash
 pip install -r requirements.txt
 ```
 
-6. **Execute as migrações**
-
+### **5. Aplicar migrações**
 ```bash
-python manage.py makemigrations
 python manage.py migrate
 ```
 
-7. **Carregue os dados iniciais de cidades e cursos**
-
+### **6. Criar superusuário**
 ```bash
-python manage.py loaddata dados_iniciais.json
+python manage.py createsuperuser
 ```
 
-8. **Inicie o servidor**
-
+### **7. Iniciar o servidor**
 ```bash
 python manage.py runserver
 ```
 
-Agora, o sistema estará disponível em `http://localhost:8000`.
+---
+
+## **🌐 Acessos**
+
+- Interface principal: **http://127.0.0.1:8000/**
+- Admin Django: **http://127.0.0.1:8000/admin/**
+- Recuperação de senha: prints no console
+
+---
+
+## **🗂 Estrutura Geral do Projeto**
+
+```
+MedAgenda/
+│
+├── agendamento/      # App que gerencia agendamentos
+├── cliente/          # App que gerencia clientes
+├── medico/           # App dos médicos
+├── cidade/           # App das cidades
+│
+├── templates/        # Templates HTML do sistema
+├── static/           # Arquivos estáticos (CSS, JS, imagens)
+├── media/            # Uploads de fotos
+│
+├── manage.py
+└── requirements.txt
+```
+
+---
+
+## **📷 Uploads**
+- Fotos de médicos e clientes são armazenadas na pasta `media/`.
+- Criada automaticamente no primeiro upload.
+
+---
+
+## **📌 requirements.txt**
+```
+Django==4.2.2
+pillow
+```
+
+---
+
+## **🙌 Créditos**
+Projeto desenvolvido para fins educacionais, seguindo princípios de boas práticas em Django, organização de templates, autenticação e CRUDs completos.
+

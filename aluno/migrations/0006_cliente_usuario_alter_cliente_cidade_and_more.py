@@ -8,33 +8,44 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('aluno', '0005_delete_professor'),
+        ("aluno", "0005_delete_professor"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='cliente',
-            name='usuario',
-            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='cliente', to=settings.AUTH_USER_MODEL),
+            model_name="cliente",
+            name="usuario",
+            field=models.OneToOneField(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="cliente",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AlterField(
-            model_name='cliente',
-            name='cidade',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='aluno.cidade'),
+            model_name="cliente",
+            name="cidade",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="aluno.cidade",
+            ),
         ),
         migrations.AlterField(
-            model_name='cliente',
-            name='email',
+            model_name="cliente",
+            name="email",
             field=models.EmailField(blank=True, max_length=254, null=True),
         ),
         migrations.AlterField(
-            model_name='cliente',
-            name='endereco',
+            model_name="cliente",
+            name="endereco",
             field=models.CharField(blank=True, max_length=255, null=True),
         ),
         migrations.AlterField(
-            model_name='cliente',
-            name='telefone',
+            model_name="cliente",
+            name="telefone",
             field=models.CharField(blank=True, max_length=15, null=True),
         ),
     ]
