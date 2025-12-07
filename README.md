@@ -1,93 +1,149 @@
-MedAgenda — Sistema de Agendamentos Médicos
+# **MedAgenda — Sistema de Agendamentos Médicos 🏥**
 
-Projeto desenvolvido utilizando o framework Django para criação de um sistema de gerenciamento de clientes, médicos, cidades e agendamentos. O sistema possui autenticação, upload de imagens, filtros em todas as listagens e controle básico de permissões. O objetivo do projeto é disponibilizar uma forma simples e organizada de cadastrar médicos, registrar clientes e criar agendamentos de consultas.
+![Status](https://img.shields.io/badge/status-em%20desenvolvimento-blue)
+![Python](https://img.shields.io/badge/Python-3.10+-yellow)
+![Django](https://img.shields.io/badge/Django-4.2-green)
+![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
-Instruções de instalação e configuração
-Pré-requisitos
+Sistema web desenvolvido com **Django** para gerenciar **clientes**, **médicos**, **cidades** e **agendamentos médicos**.  
+O projeto oferece uma interface simples, funcional e ideal para uso acadêmico.
 
-Windows 10/11
-Python 3.10+ (marque a opção “Add Python to PATH” ao instalar)
-Git (necessário para clonar o repositório)
+---
 
-Passo a passo (Windows)
-Clonar o projeto
+## **📌 Funcionalidades Principais**
+
+- **Gerenciamento completo de Médicos**
+  - Cadastro, edição, exclusão e upload de foto
+
+- **Gerenciamento de Clientes**
+  - Inclusão, edição, exclusão e foto de perfil
+
+- **Cadastro de Cidades**
+  - Utilizadas como referência para médicos e clientes
+
+- **Agendamentos Médicos**
+  - Criação, edição, detalhamento e cancelamento (POST seguro)
+  - Exibição organizada com paginação e datas formatadas
+
+- **Filtros em todas as listagens**
+  - Por nome, cidade, especialidade, datas, status etc.
+
+- **Sistema de Autenticação**
+  - Login
+  - Logout
+  - Cadastro de usuário
+  - Recuperação de senha via console
+
+- **Controle básico de permissões**
+  - Usuário só pode editar e excluir seus próprios agendamentos
+  - Superusuários podem gerenciar tudo
+
+- **Interface Responsiva**
+  - Desenvolvida com **Bootstrap**
+
+---
+
+## **📦 Tecnologias Utilizadas**
+
+- **Python 3.x**
+- **Django 4.2**
+- **SQLite** como banco padrão
+- **Bootstrap 4/5**
+- **Pillow** (upload de imagens)
+
+---
+
+## **🔧 Instalação e Configuração (Windows)**
+
+### **Pré-requisitos**
+- Windows 10 ou 11  
+- Python 3.10+ (com “Add Python to PATH”)  
+- Git instalado  
+
+---
+
+## **🚀 Passo a Passo para Rodar o Projeto**
+
+### **1. Clonar o repositório**
+```bash
 git clone https://github.com/Carlosemfeitoza/Projeto
 cd seu-repositorio
+```
 
-Criar o ambiente virtual
+### **2. Criar o ambiente virtual**
+```bash
 python -m venv venv
+```
 
-Ativar o ambiente virtual
+### **3. Ativar o ambiente virtual**
+```bash
 .\venv\Scripts\Activate
+```
 
-Instalar dependências
+### **4. Instalar dependências**
+```bash
 pip install -r requirements.txt
+```
 
-Aplicar migrações
+### **5. Aplicar migrações**
+```bash
 python manage.py migrate
+```
 
-Criar superusuário (necessário para acessar /admin e gerenciar os cadastros)
+### **6. Criar superusuário**
+```bash
 python manage.py createsuperuser
+```
 
-Executar o servidor
+### **7. Iniciar o servidor**
+```bash
 python manage.py runserver
+```
 
-Abrir o app
+---
 
-Interface principal: http://127.0.0.1:8000/
+## **🌐 Acessos**
 
-Admin Django: http://127.0.0.1:8000/admin/
+- Interface principal: **http://127.0.0.1:8000/**
+- Admin Django: **http://127.0.0.1:8000/admin/**
+- Recuperação de senha: prints no console
 
-Funcionamento geral do sistema
+---
 
-O sistema oferece:
+## **🗂 Estrutura Geral do Projeto**
 
-— Cadastro de Médicos
-— Cadastro de Clientes
-— Cadastro de Cidades
-— Cadastro e gerenciamento de Agendamentos
-— Filtros em todas as listagens (clientes, médicos, cidades e agendamentos)
-— Paginação nas listagens
-— Upload de imagens (perfil e fotos)
-— Autenticação com login, logout, registro e recuperação de senha
-— Interface simples, organizada e responsiva
+```
+MedAgenda/
+│
+├── agendamento/      # App que gerencia agendamentos
+├── cliente/          # App que gerencia clientes
+├── medico/           # App dos médicos
+├── cidade/           # App das cidades
+│
+├── templates/        # Templates HTML do sistema
+├── static/           # Arquivos estáticos (CSS, JS, imagens)
+├── media/            # Uploads de fotos
+│
+├── manage.py
+└── requirements.txt
+```
 
-Esses recursos permitem que o usuário gerencie todos os dados básicos de uma clínica de forma prática.
+---
 
-Estrutura básica do projeto
+## **📷 Uploads**
+- Fotos de médicos e clientes são armazenadas na pasta `media/`.
+- Criada automaticamente no primeiro upload.
 
-O projeto utiliza:
+---
 
-Django (backend e templates)
-
-SQLite (banco de dados padrão)
-
-HTML + CSS + Bootstrap (interface)
-
-Pillow (upload de imagens)
-
-O repositório contém:
-
-Aplicações separadas por função
-
-Templates organizados
-
-Sistema de mensagens
-
-Páginas específicas para login, cadastro e recuperação de senha
-
-Pastas para armazenamento de imagens (media/)
-
-Observações importantes
-
-Durante o desenvolvimento, o envio de e-mails usa o backend de console, então o link de redefinição de senha aparece diretamente no terminal onde o servidor está rodando.
-
-Em settings.py, certifique-se de que MEDIA_URL e MEDIA_ROOT estão configurados corretamente para exibir imagens.
-
-A pasta media/ será criada automaticamente após o primeiro upload.
-
-Em produção, é necessário configurar um servidor de arquivos estáticos e de mídia.
-
-requirements.txt sugerido
+## **📌 requirements.txt**
+```
 Django==4.2.2
 pillow
+```
+
+---
+
+## **🙌 Créditos**
+Projeto desenvolvido para fins educacionais, seguindo princípios de boas práticas em Django, organização de templates, autenticação e CRUDs completos.
+
