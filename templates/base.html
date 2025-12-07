@@ -35,9 +35,12 @@
     <title>MedAgenda</title>
 </head>
 <body>
+
+    <!-- Barra superior fixa com busca e opções de perfil -->
     <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0">
         <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="{% url 'index' %}">MedAgenda</a>
 
+        <!-- Campo de busca geral -->
         <form class="form-inline w-100" method="get" action="{% url 'search' %}">
             <input 
                 class="form-control form-control-dark w-100" 
@@ -48,12 +51,15 @@
                 value="{{ request.GET.q }}">
         </form>
 
+        <!-- Menu à direita com login ou perfil -->
         <ul class="navbar-nav px-3 d-flex align-items-center">
           {% if user.is_authenticated %}
+            <!-- Dropdown com opções do usuário logado -->
             <li class="nav-item dropdown me-3">
               <a class="nav-link dropdown-toggle" href="#" id="perfilDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="bi bi-person-circle"></i> {{ user.username }}
               </a>
+
               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="perfilDropdown">
                 <a class="dropdown-item" href="{% url 'perfil' %}">Meu Perfil</a>
                 <div class="dropdown-divider"></div>
@@ -61,6 +67,7 @@
               </div>
             </li>
           {% else %}
+            <!-- Link para login quando não autenticado -->
             <li class="nav-item text-nowrap">
               <a class="nav-link" href="{% url 'login' %}">Entrar</a>
             </li>
@@ -70,35 +77,55 @@
 
     <div class="container-fluid">
         <div class="row">
+
+          <!-- Menu lateral de navegação -->
           <nav class="col-md-2 d-none d-md-block bg-light sidebar">
             <div class="sidebar-sticky">
+
+              <!-- Links principais da aplicação -->
               <ul class="nav flex-column">
                 <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'index' %}">
-                        Dashboard <span class="sr-only">(current)</span>
+                        Dashboard
                     </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'cliente_listar' %}active{% endif %}" href="{% url 'cliente_listar' %}">Clientes</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'cliente_listar' %}active{% endif %}" href="{% url 'cliente_listar' %}">
+                        Clientes
+                    </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'medico_listar' %}active{% endif %}" href="{% url 'medico_listar' %}">Médicos</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'medico_listar' %}active{% endif %}" href="{% url 'medico_listar' %}">
+                        Médicos
+                    </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'agendamento_listar' %}active{% endif %}" href="{% url 'agendamento_listar' %}">Agendamentos</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'agendamento_listar' %}active{% endif %}" href="{% url 'agendamento_listar' %}">
+                        Agendamentos
+                    </a>
                 </li>
+
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'cidade_listar' %}active{% endif %}" href="{% url 'cidade_listar' %}">Cidades</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'cidade_listar' %}active{% endif %}" href="{% url 'cidade_listar' %}">
+                        Cidades
+                    </a>
                 </li>
               </ul>
 
+              <!-- Mensagem fixa na barra -->
               <div class="sidebar-message mt-4 mb-2">
                 MedAgenda, o melhor site de agendamentos médicos do país.
               </div>
             </div>
           </nav>
 
+          <!-- Conteúdo principal da página-->
           <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+
+            <!-- Exibição de mensagens (pop-ups) do Django -->
             {% if messages %}
               <div class="container mt-3">
                 {% for message in messages %}
@@ -110,12 +137,15 @@
               </div>
             {% endif %}
 
-           {% block center %}
-           {% endblock %}
+            <!-- Área de conteúdo de cada página -->
+            {% block center %}
+            {% endblock %}
+
           </main>
         </div>
       </div>
 
+      <!-- Scripts do Bootstrap quem serão importados-->
       <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

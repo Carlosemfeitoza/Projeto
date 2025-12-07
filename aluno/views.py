@@ -19,10 +19,12 @@ from .forms import (
     PerfilForm
 )
 
+# Formulário de login
 class LoginForm(AuthenticationForm):
     username = forms.CharField(label="Usuário", widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label="Senha", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
+# Exibe detalhes de um cliente (acesso restrito para somente os verdadeiros clientes ou adms)
 @login_required
 def cliente_detalhar(request, id):
     cliente = get_object_or_404(Cliente, id=id)
@@ -32,6 +34,7 @@ def cliente_detalhar(request, id):
 
     return render(request, 'cliente/cliente_detalhar.html', {'cliente': cliente})
 
+# Edita dados de um cliente, segue a lógica de restrição
 @login_required
 def cliente_editar(request, id):
     cliente = get_object_or_404(Cliente, id=id)
@@ -44,6 +47,7 @@ def cliente_editar(request, id):
         form = ClienteForm(request.POST, request.FILES, instance=cliente)
         if form.is_valid():
             cliente = form.save()
+            # Atualiza dados do usuário vinculado ao cliente
             if cliente.usuario:
                 user = cliente.usuario
                 user.first_name = cliente.nome
@@ -61,6 +65,7 @@ def cliente_editar(request, id):
         form = ClienteForm(instance=cliente)
     return render(request, 'cliente/form.html', {'form': form})
 
+# Remove cliente; se for o próprio usuário, faz logout antes de deletar
 @login_required
 def cliente_remover(request, id):
     cliente = get_object_or_404(Cliente, id=id)
@@ -76,6 +81,7 @@ def cliente_remover(request, id):
     cliente.delete()
     return redirect('cliente_listar')
 
+# Cria novo cliente (somente superuser)
 @login_required
 def cliente_criar(request):
     if not request.user.is_superuser:
@@ -90,6 +96,7 @@ def cliente_criar(request):
         form = ClienteForm()
     return render(request, "cliente/form.html", {'form': form})
 
+# Lista clientes com busca, filtro por cidade e paginação
 @login_required
 def cliente_listar(request):
     qs = Cliente.objects.select_related('cidade').exclude(usuario__is_superuser=True)
@@ -123,6 +130,7 @@ def cliente_listar(request):
     }
     return render(request, "cliente/clientes.html", context)
 
+# Dashboard principal
 @login_required
 def index(request):
     context = {
@@ -133,12 +141,13 @@ def index(request):
     }
     return render(request, "cliente/index.html", context)
 
+# Lista agendamentos com filtros (cliente, médico, status, intervalo) e paginação
 @login_required
 def agendamento_listar(request):
     qs = Agendamento.objects.select_related('cliente', 'medico').all()
     if not request.user.is_superuser and hasattr(request.user, 'cliente'):
-
         qs = qs.filter(cliente=request.user.cliente)
+
     cliente_id = request.GET.get('cliente', '').strip()
     medico_id = request.GET.get('medico', '').strip()
     status = request.GET.get('status', '').strip()
@@ -186,6 +195,7 @@ def agendamento_listar(request):
 
     return render(request, "agendamento/agendamentos.html", context)
 
+# Cria novo agendamento
 @login_required
 def agendamento_cadastrar(request):
     if request.method == 'POST':
@@ -197,6 +207,7 @@ def agendamento_cadastrar(request):
         form = AgendamentoForm()
     return render(request, "agendamento/form.html", {'form': form})
 
+# Edita agendamento (com verificação de permissão)
 @login_required
 def agendamento_editar(request, id):
     agendamento = get_object_or_404(Agendamento, id=id)
@@ -212,11 +223,12 @@ def agendamento_editar(request, id):
 
     return render(request, 'agendamento/form.html', {'form': form})
 
+# Remove agendamento
 @login_required
 def agendamento_remover(request, id):
     agendamento = get_object_or_404(Agendamento, id=id)
 
-    # Permissão
+    # Verifica permissão antes de excluir
     if not request.user.is_superuser and agendamento.cliente.usuario != request.user:
         return HttpResponseForbidden("Você não tem permissão para remover este agendamento.")
 
@@ -224,9 +236,10 @@ def agendamento_remover(request, id):
         agendamento.delete()
         return redirect('agendamento_listar')
 
-    # Se chegar aqui por GET, só redireciona para lista
+    # Redireciona para a lista se acessado via GET
     return redirect('agendamento_listar')
 
+# Mostra detalhes de um agendamento (acesso restrito)
 @login_required
 def agendamento_detalhar(request, id):
     agendamento = get_object_or_404(Agendamento, id=id)
@@ -234,6 +247,8 @@ def agendamento_detalhar(request, id):
         return HttpResponseForbidden("Você não tem permissão para ver este agendamento.")
 
     return render(request, 'agendamento/detalhes.html', {'agendamento': agendamento})
+
+# Cria cidade (somente superuser)
 @login_required
 def cidade_criar(request):
     if not request.user.is_superuser:
@@ -248,6 +263,7 @@ def cidade_criar(request):
         form = CidadeForm()
     return render(request, "cidade/form.html", {'form': form})
 
+# Edita cidade (somente superuser)
 @login_required
 def cidade_editar(request, id):
     if not request.user.is_superuser:
@@ -263,6 +279,7 @@ def cidade_editar(request, id):
         form = CidadeForm(instance=cidade)
     return render(request, "cidade/form.html", {'form': form})
 
+# Lista cidades com filtros e paginação
 @login_required
 def cidade_listar(request):
     qs = Cidade.objects.all()
@@ -295,6 +312,7 @@ def cidade_listar(request):
     }
     return render(request, "cidade/cidade_listar.html", context)
 
+# Remove cidade (somente superuser)
 @login_required
 def cidade_remover(request, id):
     if not request.user.is_superuser:
@@ -304,11 +322,13 @@ def cidade_remover(request, id):
     cidade.delete()
     return redirect('cidade_listar')
 
+# Detalhes do médico
 @login_required
 def medico_detalhar(request, id):
     medico = get_object_or_404(Medico, id=id)
     return render(request, 'medico/medico_detalhes.html', {'medico': medico})
 
+# Lista médicos com filtros e paginação
 @login_required
 def medico_listar(request):
     qs = Medico.objects.all()
@@ -345,6 +365,7 @@ def medico_listar(request):
     }
     return render(request, "medico/medicos.html", context)
 
+# Cadastra médico (somente superuser)
 @login_required
 def medico_cadastrar(request):
     if not request.user.is_superuser:
@@ -359,6 +380,7 @@ def medico_cadastrar(request):
         form = MedicoForm()
     return render(request, "medico/form.html", {'form': form})
 
+# Edita médico (somente superuser)
 @login_required
 def medico_editar(request, id):
     if not request.user.is_superuser:
@@ -374,6 +396,7 @@ def medico_editar(request, id):
         form = MedicoForm(instance=medico)
     return render(request, 'medico/form.html', {'form': form})
 
+# Remove médico (somente superuser)
 @login_required
 def medico_remover(request, id):
     if not request.user.is_superuser:
@@ -383,6 +406,7 @@ def medico_remover(request, id):
     medico.delete()
     return redirect('medico_listar')
 
+# Cadastra usuário customizado e cria/associa cliente automaticamente
 def cadastrar_usuario(request):
     if request.method == 'POST':
         form = UsuarioCustomizadoCreationForm(request.POST, request.FILES)
@@ -430,6 +454,7 @@ def cadastrar_usuario(request):
 
     return render(request, 'usuarios/cadastrar.html', {'form': form})
 
+# View de login (usa LoginForm)
 def login_view(request):
     if request.user.is_authenticated:
         return redirect('index')
@@ -449,18 +474,20 @@ def login_view(request):
         form = LoginForm(request)
     return render(request, 'usuarios/login.html', {'form': form})
 
+# Logout simples
 def logout_view(request):
     logout(request)
     messages.info(request, 'Você saiu do sistema.')
     return redirect('login')
 
+# Atualiza perfil do usuário e cria/atualiza cliente relacionado
 @login_required
 def perfil_view(request):
     if request.method == 'POST':
         form = PerfilForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             with transaction.atomic():
-                user = form.save() 
+                user = form.save()
 
                 # Apenas cria ou atualiza cliente se o usuário não for superuser
                 if not user.is_superuser:
@@ -503,6 +530,7 @@ def perfil_view(request):
         form = PerfilForm(instance=request.user)
     return render(request, 'usuarios/perfil.html', {'form': form})
 
+# Busca geral (retorna listas limitadas para a página de resultados)
 @login_required
 def search(request):
     q = request.GET.get('q', '').strip()

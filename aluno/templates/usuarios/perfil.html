@@ -6,16 +6,20 @@
 <div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-lg-10">
+
+            <!-- Título da página -->
             <h2 class="mb-4">
                 <i class="bi bi-person-circle text-success"></i> Meu Perfil
             </h2>
 
             <div class="row g-4">
-                <!-- Coluna da Esquerda - Informações do Usuário -->
+
+                <!-- Coluna esquerda: Exibição do perfil -->
                 <div class="col-lg-4">
                     <div class="card shadow-sm mb-4">
                         <div class="card-body text-center">
-                            <!-- Foto de Perfil -->
+
+                            <!-- Foto do usuário -->
                             {% if user.foto_perfil %}
                                 <img src="{{ user.foto_perfil.url }}" alt="Foto de perfil" class="rounded-circle img-thumbnail mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                             {% else %}
@@ -24,11 +28,11 @@
                                 </div>
                             {% endif %}
 
-                            <!-- Primeiro Nome do Usuário -->
+                            <!-- Nome e username -->
                             <h4 class="mb-1">{{ user.first_name|default:user.username }}</h4>
                             <p class="text-muted mb-3">@{{ user.username }}</p>
 
-                            <!-- Grupos / Superusuário -->
+                            <!-- Grupo / Superusuário -->
                             <div class="mb-3">
                                 {% if user.is_superuser %}
                                     <span class="badge bg-warning text-dark">
@@ -54,11 +58,13 @@
                                     <strong>E-mail:</strong><br>
                                     <span class="text-muted">{{ user.email|default:"Não informado" }}</span>
                                 </p>
+
                                 <p class="mb-2">
                                     <i class="bi bi-card-text text-success"></i>
                                     <strong>CPF:</strong><br>
                                     <span class="text-muted">{{ user.cpf }}</span>
                                 </p>
+
                                 <p class="mb-2">
                                     <i class="bi bi-calendar-check text-success"></i>
                                     <strong>Membro desde:</strong><br>
@@ -68,7 +74,7 @@
                         </div>
                     </div>
 
-                    <!-- Card de Estatísticas -->
+                    <!-- Estatísticas simples -->
                     <div class="card shadow-sm">
                         <div class="card-header" style="background-color: #4caf4c; color: white;">
                             <i class="bi bi-bar-chart"></i> Estatísticas
@@ -86,7 +92,7 @@
                     </div>
                 </div>
 
-                <!-- Coluna da Direita - Formulário de Edição -->
+                <!-- Coluna direita: Formulário de edição -->
                 <div class="col-lg-8">
                     <div class="card shadow-sm">
                         <div class="card-header" style="background-color: #4caf51; color: white;">
@@ -94,17 +100,19 @@
                                 <i class="bi bi-pencil-square"></i> Editar Informações
                             </h5>
                         </div>
+
                         <div class="card-body">
                             <form method="post" enctype="multipart/form-data">
                                 {% csrf_token %}
 
-                                <!-- Dados Pessoais -->
+                                <!-- Dados pessoais -->
                                 <div class="section-title mb-3">
                                     <h6 class="text-success border-bottom pb-2">
                                         <i class="bi bi-person"></i> Dados Pessoais
                                     </h6>
                                 </div>
 
+                                <!-- Campos individuais -->
                                 <div class="mb-3">
                                     <label for="{{ form.first_name.id_for_label }}" class="form-label fw-bold">
                                         Primeiro Nome
@@ -165,7 +173,7 @@
                                     {% endif %}
                                 </div>
 
-                                <!-- Foto de Perfil -->
+                                <!-- Seção da foto -->
                                 <div class="section-title mb-3 mt-4">
                                     <h6 class="text-success border-bottom pb-2">
                                         <i class="bi bi-image"></i> Foto de Perfil
@@ -178,6 +186,7 @@
                                     </label>
 
                                     {% if user.foto_perfil %}
+                                        <!-- Pré-visualização da foto atual -->
                                         <div class="mb-3">
                                             <img src="{{ user.foto_perfil.url }}" alt="Foto atual" class="img-thumbnail" style="max-width: 200px; max-height: 200px; object-fit: cover;">
                                             <p class="text-muted small mt-2">Foto atual. Envie uma nova para substituir.</p>
@@ -210,7 +219,8 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> <!-- fim coluna direita -->
+
             </div>
         </div>
     </div>
@@ -218,6 +228,7 @@
 
 {% block extra_css %}
 <style>
+    /* Ajustes visuais gerais */
     .card { border: none; border-radius: 10px; }
     .card-header { border-radius: 10px 10px 0 0 !important; padding: 15px 20px; font-weight: 600; }
     .card-body { padding: 25px; }

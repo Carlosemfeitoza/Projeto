@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
+# Modelo de usuário personalizado com campos adicionais usados no sistema
 class UsuarioCustomizado(AbstractUser):
     cpf = models.CharField(max_length=11, unique=True, verbose_name="CPF", blank=True, null=True)
     email = models.EmailField(unique=True, verbose_name="E-mail")
@@ -15,15 +16,19 @@ class UsuarioCustomizado(AbstractUser):
     receber_notificacoes = models.BooleanField(default=True)
 
     def __str__(self):
+        # Retorna uma identificação do usuário
         return f"{self.username} - {self.cpf}"
 
     def is_gerente(self):
+        # Verifica se o usuário pertence ao grupo de gerentes
         return self.groups.filter(name="GERENTE").exists()
 
     def is_user_simples(self):
+        # Verifica se é um usuário comum
         return self.groups.filter(name="USUARIO_SIMPLES").exists()
 
 
+# Cadastro de cidades, usado como referência em outros modelos
 class Cidade(models.Model):
     nome = models.CharField(max_length=100)
     sigla_estado = models.CharField(max_length=2)
@@ -31,6 +36,8 @@ class Cidade(models.Model):
     def __str__(self):
         return self.nome + " - " + self.sigla_estado 
 
+
+# Representa um cliente do sistema (que pode ou não ter vínculo com um usuário do login)
 class Cliente(models.Model):
     usuario = models.OneToOneField(
         settings.AUTH_USER_MODEL,
@@ -49,6 +56,8 @@ class Cliente(models.Model):
     def __str__(self):
         return self.nome
     
+
+# Cadastro de médicos vinculados aos atendimentos
 class Medico(models.Model):
     nome = models.CharField(max_length=100)               
     cpf = models.CharField(max_length=14, unique=True)
@@ -65,6 +74,8 @@ class Medico(models.Model):
     def __str__(self):
         return self.nome
     
+
+# Registro de agendamentos realizados entre clientes e médicos
 class Agendamento(models.Model):
     STATUS_CHOICES = [
         ('P', 'Pendente'),
@@ -78,12 +89,11 @@ class Agendamento(models.Model):
     data_hora = models.DateTimeField()
     motivo = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
-    criado_em = models.DateTimeField(auto_now_add=True)
-    atualizado_em = models.DateTimeField(auto_now=True)
+    criado_em = models.DateTimeField(auto_now_add=True)   # Marca quando o agendamento foi criado
+    atualizado_em = models.DateTimeField(auto_now=True)   # Atualiza a data a cada edição
     
     def __str__(self):
         return self.status
-    
 
 
 

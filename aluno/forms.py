@@ -1,23 +1,25 @@
 from django.forms import ModelForm
 from django import forms
 from .models import Cliente, Cidade, Medico, Agendamento
-from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import UsuarioCustomizado
 from django.contrib.auth import get_user_model
 
+# Formulário para criar usuários com os campos personalizados do sistema
 class UsuarioCustomizadoCreationForm(UserCreationForm):
     class Meta:
         model = UsuarioCustomizado
         fields = [
-            'username', 'email', 'cpf', 'telefone', 'endereco', 'bairro', 'cidade', 'data_nascimento', 'foto_perfil',
-            'password1', 'password2'
+            'username', 'email', 'cpf', 'telefone', 'endereco', 'bairro', 'cidade',
+            'data_nascimento', 'foto_perfil', 'password1', 'password2'
         ]
 
+# Formulário de login com widgets ajustados para o Bootstrap
 class LoginForm(AuthenticationForm):
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
+# Formulário de edição de perfil do usuário autenticado
 class PerfilForm(forms.ModelForm):
     class Meta:
         model = UsuarioCustomizado
@@ -31,6 +33,7 @@ class PerfilForm(forms.ModelForm):
             'data_nascimento': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }
 
+# Formulário para cadastro e edição de clientes
 class ClienteForm(ModelForm):
     class Meta:
         model = Cliente
@@ -45,6 +48,7 @@ class ClienteForm(ModelForm):
             'foto': forms.FileInput(attrs={'class': 'form-control'}),
         }
 
+# Formulário para cidades
 class CidadeForm(ModelForm):
     class Meta:
         model = Cidade
@@ -54,11 +58,14 @@ class CidadeForm(ModelForm):
             'sigla_estado': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
+# Formulário usado para cadastro e edição de médicos
 class MedicoForm(ModelForm):
     class Meta:
         model = Medico
-        fields = ['nome', 'registro_profissional', 'cpf', 'email', 'telefone',
-                  'data_nascimento', 'especialidade', 'salario', 'data_contratacao', 'ativo']
+        fields = [
+            'nome', 'registro_profissional', 'cpf', 'email', 'telefone', 'data_nascimento',
+            'especialidade', 'salario', 'data_contratacao', 'ativo'
+        ]
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control'}),
             'registro_profissional': forms.TextInput(attrs={'class': 'form-control'}),
@@ -73,6 +80,7 @@ class MedicoForm(ModelForm):
             'foto': forms.FileInput(attrs={'class': 'form-control'}),
         }
 
+# Formulário que gerencia os agendamentos entre clientes e médicos
 class AgendamentoForm(ModelForm):
     class Meta:
         model = Agendamento
@@ -84,4 +92,3 @@ class AgendamentoForm(ModelForm):
             'motivo': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
             'status': forms.Select(attrs={'class': 'form-control'}),
         }
-
