@@ -67,7 +67,7 @@ O projeto oferece uma interface simples, funcional e ideal para uso acadêmico.
 ### **1. Clonar o repositório**
 ```bash
 git clone https://github.com/Carlosemfeitoza/Projeto
-cd seu-repositorio
+cd Projeto
 ```
 
 ### **2. Criar o ambiente virtual**
