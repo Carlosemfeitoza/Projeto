@@ -8,7 +8,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("aluno", "0005_delete_professor"),
+        ("clinica", "0005_delete_professor"),
     ]
 
     operations = [
@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 blank=True,
                 null=True,
                 on_delete=django.db.models.deletion.SET_NULL,
-                to="aluno.cidade",
+                to="clinica.cidade",
             ),
         ),
         migrations.AlterField(

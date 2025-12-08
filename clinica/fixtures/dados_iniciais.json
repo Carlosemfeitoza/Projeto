@@ -1,66 +1,66 @@
   [
   {
-    "model": "aluno.cidade",
+    "model": "clinica.cidade",
     "pk": 1,
     "fields": { "nome": "Natal", "sigla_estado": "RN" }
   },
   {
-    "model": "aluno.cidade",
+    "model": "clinica.cidade",
     "pk": 2,
     "fields": { "nome": "Mossoró", "sigla_estado": "RN" }
   },
   {
-    "model": "aluno.cidade",
+    "model": "clinica.cidade",
     "pk": 3,
     "fields": { "nome": "Pau dos Ferros", "sigla_estado": "RN" }
   },
   {
-    "model": "aluno.cidade",
+    "model": "clinica.cidade",
     "pk": 4,
     "fields": { "nome": "Caicó", "sigla_estado": "RN" }
   },
   {
-    "model": "aluno.cidade",
+    "model": "clinica.cidade",
     "pk": 5,
     "fields": { "nome": "Assú", "sigla_estado": "RN" }
   },
   {
-    "model": "aluno.cidade",
+    "model": "clinica.cidade",
     "pk": 6,
     "fields": { "nome": "Currais Novos", "sigla_estado": "RN" }
   },
   {
-    "model": "aluno.cidade",
+    "model": "clinica.cidade",
     "pk": 7,
     "fields": { "nome": "Parnamirim", "sigla_estado": "RN" }
   },
   {
-    "model": "aluno.cidade",
+    "model": "clinica.cidade",
     "pk": 8,
     "fields": { "nome": "São Gonçalo do Amarante", "sigla_estado": "RN" }
   },
   {
-    "model": "aluno.cidade",
+    "model": "clinica.cidade",
     "pk": 9,
     "fields": { "nome": "João Pessoa", "sigla_estado": "PB" }
   },
   {
-    "model": "aluno.cidade",
+    "model": "clinica.cidade",
     "pk": 10,
     "fields": { "nome": "Campina Grande", "sigla_estado": "PB" }
   },
   {
-    "model": "aluno.cidade",
+    "model": "clinica.cidade",
     "pk": 11,
     "fields": { "nome": "Patos", "sigla_estado": "PB" }
   },
   {
-    "model": "aluno.cidade",
+    "model": "clinica.cidade",
     "pk": 12,
     "fields": { "nome": "São Paulo", "sigla_estado": "SP" }
   },
   {
-    "model": "aluno.cidade",
+    "model": "clinica.cidade",
     "pk": 13,
     "fields": { "nome": "Rio de Janeiro", "sigla_estado": "RJ" }
   }

@@ -246,7 +246,7 @@ class Migration(migrations.Migration):
                 (
                     "cidade",
                     models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE, to="aluno.cidade"
+                        on_delete=django.db.models.deletion.CASCADE, to="clinica.cidade"
                     ),
                 ),
             ],
@@ -285,7 +285,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="agendamentos",
-                        to="aluno.cliente",
+                        to="clinica.cliente",
                     ),
                 ),
                 (
@@ -293,7 +293,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="agendamentos",
-                        to="aluno.medico",
+                        to="clinica.medico",
                     ),
                 ),
             ],

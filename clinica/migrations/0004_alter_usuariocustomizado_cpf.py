@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("aluno", "0003_remove_cliente_bairro_remove_cliente_mae"),
+        ("clinica", "0003_remove_cliente_bairro_remove_cliente_mae"),
     ]
 
     operations = [

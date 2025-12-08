@@ -39,9 +39,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "aluno",
+    'clinica',
 ]
-AUTH_USER_MODEL = "aluno.UsuarioCustomizado"
+AUTH_USER_MODEL = "clinica.UsuarioCustomizado"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
